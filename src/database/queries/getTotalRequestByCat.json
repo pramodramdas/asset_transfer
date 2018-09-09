@@ -1,0 +1,23 @@
+[
+    {
+        "$group":{
+            "_id":"$description", 
+            "assetId":{"$push":"$assetId"}
+        }
+    },
+    {
+        "$lookup":{
+            "from": "requests",
+            "localField": "assetId",
+            "foreignField": "assetId",
+            "as": "request_by_category"
+        }
+    },
+    {
+        "$project":{
+            "_id":0,
+            "category": "$_id",
+            "total": {"$size":"$request_by_category"}
+        }
+    }
+]

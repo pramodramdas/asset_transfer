@@ -1,0 +1,41 @@
+[
+    { "$match": { "$text": { "$search": "" } } },
+    { "$lookup": {
+         "from": "requests",
+         "localField": "assetId",
+         "foreignField": "assetId",
+         "as": "latest_request"
+       }     
+    },
+    {
+       "$project": {
+            "assetId":"$assetId",
+            "owner":"$owner",
+            "description":"$description",
+            "items": {
+                "$filter": {
+                    "input": "$latest_request",
+                    "as": "item",
+                    "cond": {
+                        "$or":[
+                            {
+                                "$and":[
+                                    {"$eq":["$$item.approved", true]},
+                                    {"$eq":["$$item.isClosed", false]},
+                                    {"$eq":["$$item.cancel",""]}
+                                ]
+                            },  
+                            {
+                                "$and":[
+                                    {"$eq":["$$item.received", true]},
+                                    {"$eq":["$$item.isClosed",false]},
+                                    {"$eq":["$$item.cancel",""]}
+                                ]
+                            }
+                        ]
+                    }
+                }
+            }
+        }
+    }
+]

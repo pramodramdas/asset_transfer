@@ -1,0 +1,37 @@
+[
+    {
+        "$group":{
+            "_id":"$description", 
+            "assetId":{"$push":"$assetId"}
+        }
+    },
+    {
+        "$lookup":{
+            "from": "requests",
+            "localField": "assetId",
+            "foreignField": "assetId",
+            "as": "requests_by_category"
+        }
+    },
+    {
+        "$project":{
+            "_id":0,
+            "category": "$_id",
+            "request_array":{
+                  "$filter": {
+                     "input": "$requests_by_category",
+                     "as": "item",
+                     "cond": { "$and":[{"$gte":["$$item.requestDate", 0]}, {"$lte":["$$item.requestDate",1526927400000]}] }
+                  }
+            }
+        }
+    },
+    {"$unwind":"$request_array"},
+    {
+        "$group":{
+            "_id":{"requestDate":"$request_array.requestDate","category":"$category"},
+            "total": {"$sum":1}
+        }
+    },
+    {"$sort":{"_id.requestDate":1}}
+]

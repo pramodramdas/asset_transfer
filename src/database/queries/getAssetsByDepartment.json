@@ -1,0 +1,48 @@
+[
+    {
+        "$group":
+            {
+                "_id":"$department", 
+                "emps": 
+                    {
+                        "$push":"$empId"
+                    }
+                }
+            },
+    {
+        "$lookup":{
+            "from": "assets",
+            "localField": "emps",
+            "foreignField": "owner",
+            "as": "assets_dept"
+        }
+    },
+    {
+        "$unwind": "$assets_dept"
+    },
+    {
+        "$group": {
+            "_id":{
+                "dept":"$_id",
+                "category": "$assets_dept.description"
+            }, 
+            "total":{
+                "$sum":1
+            }
+        }
+    },
+    {
+        "$group": {
+            "_id":{
+                "dept":"$_id.dept"
+            }, 
+            "categories":{
+                "$push":{
+                    "category":"$_id.category", 
+                    "total_cat": "$total"
+                }
+            }, 
+            "total": {"$sum":"$total" }
+            }
+        }
+]

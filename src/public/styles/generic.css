@@ -1,0 +1,31 @@
+#components-form-demo-normal-login .login-form {
+    max-width: 300px;
+}
+#components-form-demo-normal-login .login-form-forgot {
+    float: right;
+}
+#components-form-demo-normal-login .login-form-button {
+    width: 100%;
+}
+.gutter-example .ant-row > div {
+    background: transparent;
+    border: 0;
+}
+.gutter-box {
+    background: #00A0E9;
+    padding: 5px 0;
+}
+
+.events {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.events .ant-badge-status {
+    overflow: hidden;
+    white-space: nowrap;
+    width: 100%;
+    text-overflow: ellipsis;
+    font-size: 12px;
+}

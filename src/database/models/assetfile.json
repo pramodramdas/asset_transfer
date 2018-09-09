@@ -1,0 +1,12 @@
+{
+    "1" : {
+        "assetId": "1",
+        "owner":"125",
+        "temp_owner": "125"
+    },
+    "2":{
+        "assetId": "2",
+        "owner":"126",
+        "temp_owner": "126"
+    }
+}
